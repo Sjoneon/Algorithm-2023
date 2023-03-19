@@ -6,7 +6,7 @@ int main(void)
 	int c500, c100, c10;
 	int n;
 
-	printf("°Å½º¸§µ·À» ÀÔ·Â¹ÞÀ¸¼¼¿ä : \n");
+	printf("ê±°ìŠ¤ë¦„ëˆì„ ìž…ë ¥ë°›ìœ¼ì„¸ìš” : \n");
 	scanf("%d", &money);
 
 	if (money >= 500)
@@ -19,7 +19,7 @@ int main(void)
 		c10 = money % 10;
 	printf("10: % d", &c10);
 	else
-		printf("³ª¸ÓÁö: % d", &n);
+		printf("ë‚˜ë¨¸ì§€: % d", &n);
 	break;
 
 	return 0;
