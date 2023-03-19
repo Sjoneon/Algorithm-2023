@@ -1,7 +1,5 @@
 # Algorithm-2023
 
-#include <stdio.h>
-int main(void) {
-  printf("Hello Algorithm");
-  
-}
+안녕하신가요!
+이곳은 알고리즘 강의에서 배운것을 올려두는 레지스토리입니다.
+부족하지만 열심히 해보겠습니다!
