@@ -1,5 +1,19 @@
 #include<stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+
+void randomboy(int arr[],int num)
+{
+	srand(time(NULL));
+
+	for (int i = 0; i < num; i++)
+	{
+		arr[i] = rand();
+
+		printf("랜덤으로 나온 수는 : %d\n", arr[i]); //printf는 원래 함수에 안넣어야되는데 어째 오류가...
+	}
+}
 
 int findMax(int arr[], int num)
 {
@@ -22,13 +36,8 @@ int main()
 	printf("입력할 개수 : ");
 	scanf("%d", &num);
 
-	srand(NULL);
 
-	for (int i = 0; i < num; i++)
-	{
-		arr[i] = rand();
-	}
-
+	randomboy(arr,num);
 
 	int Max = findMax(arr, num);
 
