@@ -5,7 +5,7 @@
 #include <time.h>
 
 
-void swap(int* a, int* b)   // ÇÇº¿°ú ¹è¿­ÀÇ ¿ø¼Ò¸¦ ±³È¯ÇÏ´Â ÇÔ¼ö
+void swap(int* a, int* b)   // í”¼ë´‡ê³¼ ë°°ì—´ì˜ ì›ì†Œë¥¼ êµí™˜í•˜ëŠ” í•¨ìˆ˜
 {
     int temp = *a;
     *a = *b;
@@ -13,15 +13,15 @@ void swap(int* a, int* b)   // ÇÇº¿°ú ¹è¿­ÀÇ ¿ø¼Ò¸¦ ±³È¯ÇÏ´Â ÇÔ¼ö
 }
 
 
-int partition(int arr[], int left, int right)   // Äü Á¤·ÄÀ» ¼öÇàÇÏ°í ÇÇº¿ÀÇ ÀÎµ¦½º¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+int partition(int arr[], int left, int right)   // í€µ ì •ë ¬ì„ ìˆ˜í–‰í•˜ê³  í”¼ë´‡ì˜ ì¸ë±ìŠ¤ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
 {
    
-    srand(time(NULL));  // ÇÇº¿À» ·£´ıÇÏ°Ô ¼±ÅÃ
+    srand(time(NULL));  // í”¼ë´‡ì„ ëœë¤í•˜ê²Œ ì„ íƒ
 
     int pivotindex = left + rand() % (right - left + 1);
     int pivot = arr[pivotindex];
 
-    // ÇÇº¿°ú A[left]ÀÇ À§Ä¡¸¦ ¹Ù²Ş
+    // í”¼ë´‡ê³¼ A[left]ì˜ ìœ„ì¹˜ë¥¼ ë°”ê¿ˆ
     swap(&arr[left], &arr[pivotindex]); 
 
     int i = left + 1;
@@ -44,12 +44,12 @@ int partition(int arr[], int left, int right)   // Äü Á¤·ÄÀ» ¼öÇàÇÏ°í ÇÇº¿ÀÇ ÀÎµ
     }
 
     
-    swap(&arr[left], &arr[j]);  // ÇÇº¿À» ¾Ë¸ÂÀº °÷¿¡ À§Ä¡¿¡ ¹èÄ¡
+    swap(&arr[left], &arr[j]);  // í”¼ë´‡ì„ ì•Œë§ì€ ê³³ì— ìœ„ì¹˜ì— ë°°ì¹˜
 
     return j;
 }
 
-// Selection ¾Ë°í¸®Áò
+// Selection ì•Œê³ ë¦¬ì¦˜
 int Selection(int arr[], int left, int right, int k) 
 {
     if (left == right)
@@ -69,58 +69,58 @@ int Selection(int arr[], int left, int right, int k)
 int main() 
 {
    
-    FILE* inFile = fopen("data.txt", "r");  // ÆÄÀÏ ÀĞ±â
+    FILE* inFile = fopen("data.txt", "r");  // íŒŒì¼ ì½ê¸°
 
     if (inFile == NULL) 
     {
-        printf("Failed to open the input file.\n");
+        printf("ì…ë ¥ íŒŒì¼ì„ ì—¬ëŠ”ë° ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.\n");
         return 1;
     }
 
-    // ÆÄÀÏ¿¡¼­ Á¤¼öµéÀ» ÀĞ¾î ¹è¿­¿¡ ÀúÀå
+    // íŒŒì¼ì—ì„œ ì •ìˆ˜ë“¤ì„ ì½ì–´ ë°°ì—´ì— ì €ì¥
 
-    int maxElements = 1000; // ¹è¿­ÀÇ ÃÖ´ë Å©±â
+    int maxElements = 1000; // ë°°ì—´ì˜ ìµœëŒ€ í¬ê¸°
     int* arr = malloc(maxElements * sizeof(int));
 
     if (arr == NULL) 
     {
-        printf("Memory allocation failed.\n");
+        printf("ë©”ëª¨ë¦¬ í• ë‹¹ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.\n");
         fclose(inFile);
         return 1;
     }
 
     int i = 0;
 
-    while (fscanf(inFile, "%d", &arr[i]) != EOF) //EOF´Â "End of File"ÀÇ ¾àÀÚ·Î, ÆÄÀÏÀÇ ³¡À» ³ªÅ¸³»´Â »ó¼ö
+    while (fscanf(inFile, "%d", &arr[i]) != EOF) //EOFëŠ” "End of File"ì˜ ì•½ìë¡œ, íŒŒì¼ì˜ ëì„ ë‚˜íƒ€ë‚´ëŠ” ìƒìˆ˜
     {
         i++;
         if (i >= maxElements)
             break;
     }
 
-    int n = i; // ¹è¿­ÀÇ ½ÇÁ¦ Å©±â
+    int n = i; // ë°°ì—´ì˜ ì‹¤ì œ í¬ê¸°
 
     fclose(inFile);
 
-    // Selection ¾Ë°í¸®Áò ¼öÇà
+    // Selection ì•Œê³ ë¦¬ì¦˜ ìˆ˜í–‰
     int k = 5;
     int result = Selection(arr, 0, n - 1, k);
 
-    // °á°ú ÆÄÀÏ¿¡ ÀúÀå
+    // ê²°ê³¼ íŒŒì¼ì— ì €ì¥
     FILE* OutFile = fopen("result.txt", "w");
 
     if (OutFile == NULL)
     {
-        printf("Failed to open the output file.\n");
+        printf("ì¶œë ¥ íŒŒì¼ì„ ì—´ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.\n");
         free(arr);
         return 1;
     }
     else
     {
-        printf("result¿¡ ÀúÀåµÇ¾ú½À´Ï´Ù.\nresult¸¦ È®ÀÎ ÇØÁÖ¼¼¿ä!!!\n");
+        printf("resultì— ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.\nresultë¥¼ í™•ì¸ í•´ì£¼ì„¸ìš”!!!\n");
     }
 
-    fprintf(OutFile, "%d¹øÂ°·Î ÀÛÀº Á¤¼ö: %d\n", k, result);
+    fprintf(OutFile, "%dë²ˆì§¸ë¡œ ì‘ì€ ì •ìˆ˜: %d\n", k, result);
 
     fclose(OutFile);
 
