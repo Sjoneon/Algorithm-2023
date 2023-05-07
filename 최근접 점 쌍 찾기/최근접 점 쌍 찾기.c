@@ -5,77 +5,87 @@
 
 #define MAX 16
 typedef struct Point {
-    int x, y; // (x, y)ÁÂÇ¥
-    int idx; // ÃÖ¼Ò°ªÀÌ ³ª¿ÔÀ» ¶§ ÀúÀåÇÏ´Â º¯¼ö
+    int x, y; // (x, y)ì¢Œí‘œ
+    int idx; // ìµœì†Œê°’ì´ ë‚˜ì™”ì„ ë•Œ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
 } Point;
 
 Point points[MAX];
 int min_a, min_b;
-double min_dist = -1; // ÃÊ±â»óÅÂ
+double min_dist = -1; // ì´ˆê¸°ìƒíƒœ
 
+// ë‘ ì  ì‚¬ì´ì˜ ê±°ë¦¬ë¥¼ ê³„ì‚°í•˜ëŠ” í•¨ìˆ˜
 double distance(Point a, Point b) {
-    int dx = a.x - b.x;
-    int dy = a.y - b.y;
-    return sqrt(dx * dx + dy * dy);
+    int dx = a.x - b.x;     // ë‘ ì ì˜ x ì¢Œí‘œ ì°¨ì´ë¥¼ ê³„ì‚°í•˜ì—¬ dxì— ì €ì¥í•©ë‹ˆë‹¤.
+    int dy = a.y - b.y;     // ë‘ ì ì˜ y ì¢Œí‘œ ì°¨ì´ë¥¼ ê³„ì‚°í•˜ì—¬ dyì— ì €ì¥í•©ë‹ˆë‹¤.
+    return sqrt(dx * dx + dy * dy);     // ë‘ ì  ì‚¬ì´ì˜ ê±°ë¦¬ë¥¼ ê³„ì‚°í•˜ì—¬ ë°˜í™˜í•©ë‹ˆë‹¤.
+                                        //ì™¼ìª½ ìœ„ (í”¼íƒ€ê³ ë¼ìŠ¤ì˜ ì •ë¦¬)
 }
 
+// ê°€ì¥ ê°€ê¹Œìš´ ìŒì„ ì°¾ëŠ” í•¨ìˆ˜
 void find_closest_pair() {
     for (int i = 0; i < MAX; i++) {
         for (int j = i + 1; j < MAX; j++) {
-            double dist = distance(points[i], points[j]); // (0,1), (0,2), (0,3) ÀÌ·±½ÄÀ¸·Î ¼øÂ÷ÀûÀ¸·Î ºñ±³ÇÔ
-            if (min_dist == -1 || dist < min_dist) // ÃÖ¼Ò°Å¸®°¡ -1ÀÌ°Å³ª (ÃÊ±â»óÅÂ) dist°¡ ÃÖ¼Ò°Å¸®º¸´Ù ÀÛÀ»°æ¿ì
+
+            // ë‘ ì  ì‚¬ì´ì˜ ê±°ë¦¬ ê³„ì‚°
+            double dist = distance(points[i], points[j]); // (0,1), (0,2), (0,3) ì´ëŸ°ì‹ìœ¼ë¡œ ìˆœì°¨ì ìœ¼ë¡œ ë¹„êµí•¨
+
+            // ìµœì†Œê±°ë¦¬ê°€ ì´ˆê¸°ìƒíƒœì¸ ê²½ìš° ë˜ëŠ” í˜„ì¬ ê±°ë¦¬ê°€ ìµœì†Œê±°ë¦¬ë³´ë‹¤ ì‘ì€ ê²½ìš°
+            if (min_dist == -1 || dist < min_dist) // ìµœì†Œê±°ë¦¬ê°€ -1ì´ê±°ë‚˜ (ì´ˆê¸°ìƒíƒœ) distê°€ ìµœì†Œê±°ë¦¬ë³´ë‹¤ ì‘ì„ê²½ìš°
             {
-                min_dist = dist;
-                points[i].idx = i;
+                min_dist = dist;        // ìµœì†Œê±°ë¦¬ë¥¼ ê°±ì‹ 
+                points[i].idx = i;      // ìµœì†Œê±°ë¦¬ë¥¼ ê°€ì§€ëŠ” ì ë“¤ì˜ ì¸ë±ìŠ¤ë¥¼ ì €ì¥
                 points[j].idx = j;
-                min_a = points[i].idx;
-                min_b = points[j].idx; // µÎ ÁÂÇ¥¸¦ µÎ º¯¼ö¿¡ ÀúÀå
+                min_a = points[i].idx;  // ê°€ì¥ ê°€ê¹Œìš´ ì  ìŒì˜ ì¸ë±ìŠ¤ë¥¼ ì €ì¥
+                min_b = points[j].idx; // ì¦‰ min_aì™€ min_bì˜ ë‘ ì¢Œí‘œë¥¼ ë‘ ë³€ìˆ˜ì— ì €ì¥
             }
         }
     }
-} // ´ÜÁ¡ : ½Ã°£º¹Àâµµ°¡ n!ÀÌ¶ó¼­ ¼ö°¡ ¸¹¾ÆÁú¼ö·Ï ÃÖ¾ÇÀ¸·Î °¡´Â ÄÚµåÀÌ´Ù.
+} // ë‹¨ì  : ì‹œê°„ë³µì¡ë„ê°€ n!ì´ë¼ì„œ ìˆ˜ê°€ ë§ì•„ì§ˆìˆ˜ë¡ ìµœì•…ìœ¼ë¡œ ê°€ëŠ” ì½”ë“œì´ë‹¤.
 
 int main()
 {
 
-    FILE* fp = NULL;
-    FILE* fp1 = NULL;
+    FILE* fp = NULL;        // íŒŒì¼ í¬ì¸í„° ë³€ìˆ˜ ì„ ì–¸ (ì…ë ¥ íŒŒì¼ìš©)
+    FILE* fp1 = NULL;       // íŒŒì¼ í¬ì¸í„° ë³€ìˆ˜ ì„ ì–¸ (ì¶œë ¥ íŒŒì¼ìš©)
 
-    int a, b;
-    int i = 0;
+    int a, b;               // ì„ì‹œ ë³€ìˆ˜ ì„ ì–¸
+    int i = 0;              // ë°˜ë³µë¬¸ ì¸ë±ìŠ¤ ë³€ìˆ˜ ì´ˆê¸°í™”
 
-    fp = fopen("data.txt", "r");
-    fp1 = fopen("result.txt", "w");
+    fp = fopen("data.txt", "r");        // "data.txt" íŒŒì¼ì„ ì½ê¸° ëª¨ë“œë¡œ ì—´ê¸°
+    fp1 = fopen("result.txt", "w");     // "result.txt" íŒŒì¼ì„ ì“°ê¸° ëª¨ë“œë¡œ ì—´ê¸°
     if (fp == NULL)
     {
-        printf("ÆÄÀÏ ¿­±â ½ÇÆĞ\n");
-        return 1;
+        printf("íŒŒì¼ ì—´ê¸° ì‹¤íŒ¨\n");   // íŒŒì¼ ì—´ê¸°ì— ì‹¤íŒ¨í•œ ê²½ìš° ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥
+        return 1; //ì‹¤íŒ¨ë¥¼ ì¶œë ¥í•˜ê³  ì¢…ë£Œ
     }
     else
     {
-        printf("ÆÄÀÏ ¿­±â ¼º°ø\n");
+        printf("íŒŒì¼ ì—´ê¸° ì„±ê³µ\n");
     }
 
 
-    while (fscanf(fp, "%d %d\n", &a, &b) != EOF) { // ÆÄÀÏ¿¡¼­ Á¤¼ö ÀĞ¾î¿À±â
+    // íŒŒì¼ì—ì„œ ì •ìˆ˜ë¥¼ ì½ì–´ì˜¤ë©´ì„œ ë°°ì—´ì— ì €ì¥í•˜ëŠ” ê³¼ì •
+    while (fscanf(fp, "%d %d\n", &a, &b) != EOF) {
 
-        points[i].x = a; // °ªÀ» x°ª¿¡ ÀúÀå
-        points[i].y = b; // °ªÀ» y°ª¿¡ ÀúÀå
-        printf("[%d %d]\n", points[i].x, points[i].y); // ÀĞ¾î¿Â µ¥ÀÌÅÍ Ãâ·Â
-        i++; // ¹è¿­À§Ä¡ ÇÑÄ­ ÀÌµ¿
+        points[i].x = a; // ê°’ì„ xê°’ì— ì €ì¥
+        points[i].y = b; // ê°’ì„ yê°’ì— ì €ì¥
+        printf("[%d %d]\n", points[i].x, points[i].y); // ì½ì–´ì˜¨ ë°ì´í„° ì¶œë ¥
+        i++; // ë°°ì—´ ìœ„ì¹˜ í•œ ì¹¸ ì´ë™
     }
 
 
-    find_closest_pair();
+    find_closest_pair();        // ê°€ì¥ ê°€ê¹Œìš´ ìŒì„ ì°¾ëŠ” í•¨ìˆ˜ í˜¸ì¶œ
 
 
-    fprintf(fp1, "ÃÖ±ÙÁ¢ ½ÖÀÇ Á¡ : (%d %d) and (%d %d)",
-        points[min_a].x, points[min_a].y, points[min_b].x, points[min_b].y); // ÆÄÀÏ¿¡ Á¤¼ö ¾²±â
+    // ê²°ê³¼ë¥¼ íŒŒì¼ì— ì“°ê¸°
+    fprintf(fp1, "ìµœê·¼ì ‘ ìŒì˜ ì  : (%d %d) and (%d %d)",
+        points[min_a].x, points[min_a].y, points[min_b].x, points[min_b].y); // íŒŒì¼ì— ì •ìˆ˜ ì“°ê¸°
 
 
-    printf("ÃÖ±ÙÁ¢ ½ÖÀÇ Á¡: (%d, %d) and (%d, %d)\n",
+    // ê²°ê³¼ ì¶œë ¥
+    printf("ìµœê·¼ì ‘ ìŒì˜ ì : (%d, %d) and (%d, %d)\n",
         points[min_a].x, points[min_a].y, points[min_b].x, points[min_b].y);
-    printf("ÃÖ¼Ò °Å¸® : %.2lf\n", min_dist);
+    printf("ìµœì†Œ ê±°ë¦¬ : %.2lf\n", min_dist);
 
 
     fclose(fp);
