@@ -1,27 +1,27 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
-#include <stdlib.h> // malloc, free ÇÔ¼ö »ç¿ëÀ» À§ÇØ ÇÊ¿ä
+#include <stdlib.h> // malloc, free í•¨ìˆ˜ ì‚¬ìš©ì„ ìœ„í•´ í•„ìš”
 
 void merge(int arr[], int left, int mid, int right) {
     int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    // ÀÓ½Ã ¹è¿­À» µ¿ÀûÀ¸·Î ÇÒ´ç
+    // ì„ì‹œ ë°°ì—´ì„ ë™ì ìœ¼ë¡œ í• ë‹¹
     int* L = (int*)malloc(n1 * sizeof(int));
     int* R = (int*)malloc(n2 * sizeof(int));
 
-    // ÀÓ½Ã ¹è¿­¿¡ °ªÀ» º¹»ç
+    // ì„ì‹œ ë°°ì—´ì— ê°’ì„ ë³µì‚¬
     for (i = 0; i < n1; i++)
         L[i] = arr[left + i];
     for (j = 0; j < n2; j++)
         R[j] = arr[mid + 1 + j];
 
-    // ÀÓ½Ã ¹è¿­ L°ú RÀ» ÇÕº´ÇÏ¿© arr¿¡ Á¤·ÄµÈ °ªÀ» ÀúÀå
-    i = 0; // L ¹è¿­ÀÇ ÀÎµ¦½º
-    j = 0; // R ¹è¿­ÀÇ ÀÎµ¦½º
-    k = left; // arr ¹è¿­ÀÇ ÀÎµ¦½º
+    // ì„ì‹œ ë°°ì—´ Lê³¼ Rì„ í•©ë³‘í•˜ì—¬ arrì— ì •ë ¬ëœ ê°’ì„ ì €ì¥
+    i = 0; // L ë°°ì—´ì˜ ì¸ë±ìŠ¤
+    j = 0; // R ë°°ì—´ì˜ ì¸ë±ìŠ¤
+    k = left; // arr ë°°ì—´ì˜ ì¸ë±ìŠ¤
     while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
             arr[k] = L[i];
@@ -34,21 +34,21 @@ void merge(int arr[], int left, int mid, int right) {
         k++;
     }
 
-    // L ¹è¿­¿¡ ³²Àº °ªÀÌ ÀÖ´Ù¸é arr¿¡ º¹»ç
+    // L ë°°ì—´ì— ë‚¨ì€ ê°’ì´ ìˆë‹¤ë©´ arrì— ë³µì‚¬
     while (i < n1) {
         arr[k] = L[i];
         i++;
         k++;
     }
 
-    // R ¹è¿­¿¡ ³²Àº °ªÀÌ ÀÖ´Ù¸é arr¿¡ º¹»ç
+    // R ë°°ì—´ì— ë‚¨ì€ ê°’ì´ ìˆë‹¤ë©´ arrì— ë³µì‚¬
     while (j < n2) {
         arr[k] = R[j];
         j++;
         k++;
     }
 
-    // µ¿ÀûÀ¸·Î ÇÒ´çÇÑ ¸Ş¸ğ¸®¸¦ ÇØÁ¦
+    // ë™ì ìœ¼ë¡œ í• ë‹¹í•œ ë©”ëª¨ë¦¬ë¥¼ í•´ì œ
     free(L);
     free(R);
 }
@@ -57,67 +57,73 @@ void merge_sort(int arr[], int left, int right) {
     if (left < right) {
         int mid = left + (right - left) / 2;
 
-        // ¿ŞÂÊ ºÎºĞ ¹è¿­À» Á¤·Ä
+        // ì™¼ìª½ ë¶€ë¶„ ë°°ì—´ì„ ì •ë ¬
         merge_sort(arr, left, mid);
 
-        // ¿À¸¥ÂÊ ºÎºĞ ¹è¿­À» Á¤·Ä
+        // ì˜¤ë¥¸ìª½ ë¶€ë¶„ ë°°ì—´ì„ ì •ë ¬
         merge_sort(arr, mid + 1, right);
 
-        // µÎ ºÎºĞ ¹è¿­À» ÇÕº´
+        // ë‘ ë¶€ë¶„ ë°°ì—´ì„ í•©ë³‘
         merge(arr, left, mid, right);
     }
 }
 
-int main() {
-    FILE* inFile = fopen("data.txt", "r");
+int main()
+{
+    FILE* inFile = fopen("data.txt", "r");      // ì…ë ¥ íŒŒì¼ì„ ì½ê¸° ëª¨ë“œë¡œ ì—´ê¸° 
 
-    if (inFile == NULL) {
-        printf("ÀÔ·Â ÆÄÀÏÀ» ¿©´Âµ¥ ½ÇÆĞÇÏ¿´½À´Ï´Ù.\n");
+    if (inFile == NULL) 
+    {
+        printf("ì…ë ¥ íŒŒì¼ì„ ì—¬ëŠ”ë° ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.\n");    // íŒŒì¼ ì—´ê¸°ê°€ ì‹¤íŒ¨í•œ ê²½ìš° ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥
         return 1;
     }
 
     int maxElements = 1000;
-    int* arr = malloc(maxElements * sizeof(int));
+    int* arr = malloc(maxElements * sizeof(int));   // ìµœëŒ€ í¬ê¸°ê°€ 1000ì¸ ë°°ì—´ ë™ì  í• ë‹¹
 
-    if (arr == NULL) {
-        printf("¸Ş¸ğ¸® ÇÒ´ç¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.\n");
+    if (arr == NULL)
+    {
+        printf("ë©”ëª¨ë¦¬ í• ë‹¹ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.\n");   // ë°°ì—´ í• ë‹¹ì´ ì‹¤íŒ¨í•œ ê²½ìš° ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥
         fclose(inFile);
         return 1;
     }
 
     int i = 0;
 
-    while (fscanf(inFile, "%d", &arr[i]) != EOF) {
+    while (fscanf(inFile, "%d", &arr[i]) != EOF)    // íŒŒì¼ì—ì„œ ì •ìˆ˜ë¥¼ ì½ì–´ ë°°ì—´ì— ì €ì¥
+    {
         i++;
         if (i >= maxElements)
             break;
     }
 
-    int n = i;
+    int n = i;      // ë°°ì—´ì˜ ì‹¤ì œ í¬ê¸°
 
-    fclose(inFile);
+    fclose(inFile);     // íŒŒì¼ ë‹«ê¸°
 
-    merge_sort(arr, 0, n - 1);
+    merge_sort(arr, 0, n - 1);      // ë°°ì—´ì„ í•©ë³‘ ì •ë ¬
 
-    FILE* OutFile = fopen("result.txt", "w");
+    FILE* OutFile = fopen("result.txt", "w");       // ì¶œë ¥ íŒŒì¼ì„ ì“°ê¸° ëª¨ë“œë¡œ ì—´ê¸°
 
-    if (OutFile == NULL) {
-        printf("Ãâ·Â ÆÄÀÏÀ» ¿­Áö ¸øÇß½À´Ï´Ù.\n");
+    if (OutFile == NULL)
+    {
+        printf("ì¶œë ¥ íŒŒì¼ì„ ì—´ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.\n");       // íŒŒì¼ ì—´ê¸°ê°€ ì‹¤íŒ¨í•œ ê²½ìš° ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥
         free(arr);
         return 1;
     }
-    else {
-        printf("result¿¡ ÀúÀåµÇ¾ú½À´Ï´Ù.\nresult¸¦ È®ÀÎ ÇØÁÖ¼¼¿ä!!!\n");
+    else
+    {
+        printf("resultì— ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.\nresultë¥¼ í™•ì¸ í•´ì£¼ì„¸ìš”!!!\n");
     }
 
-    fprintf(OutFile, "ÇÕº´À¸·Î Á¤¸®ÇÑ ¹è¿­: ");
+    fprintf(OutFile, "í•©ë³‘ìœ¼ë¡œ ì •ë¦¬í•œ ë°°ì—´: ");      // "í•©ë³‘ìœ¼ë¡œ ì •ë ¬í•œ ë°°ì—´: "ì´ë¼ëŠ” ë¬¸ì¥ì„ íŒŒì¼ì— ê¸°ë¡
     for (int i = 0; i < n; i++)
-        fprintf(OutFile, "%d ", arr[i]);
-    fprintf(OutFile, "\n");
+        fprintf(OutFile, "%d ", arr[i]);        // ë°°ì—´ì˜ ì›ì†Œë¥¼ íŒŒì¼ì— ê³µë°±ìœ¼ë¡œ êµ¬ë¶„í•˜ì—¬ ê¸°ë¡
+    fprintf(OutFile, "\n");                     // ì¤„ ë°”ê¿ˆ ë¬¸ìë¥¼ íŒŒì¼ì— ê¸°ë¡
 
-    fclose(OutFile);
+    fclose(OutFile);    // ì¶œë ¥ íŒŒì¼ ë‹«ê¸°
 
-    free(arr);
+    free(arr);      // ë™ì ìœ¼ë¡œ í• ë‹¹í•œ ë°°ì—´ ë©”ëª¨ë¦¬ í•´ì œ
 
-    return 0;
+    return 0;       // í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 }
