@@ -6,12 +6,14 @@
 #include "menu1.h"
 #include "menu3.h"
 
+#define _CRT_SECURE_NO_WARNINGS
+
 int nickname_num[10] = { 0 };
 int count_num = 1;
 
-void del_BM()
+void del_BM() // ë³„ëª… ì‚­ì œ í•¨ìˆ˜
 {
-    int delete_num = 5;
+    int delete_num = 0;
     delete_num = List_del_BM("Region.txt");
 
     Delete("Region.txt", R[nickname_num[delete_num-1]].region, delete_num); 
@@ -19,7 +21,7 @@ void del_BM()
     return 0;
 }
 
-int List_del_BM(const char* filename)
+int List_del_BM(const char* filename) // ë³„ëª…(ì§€ì—­)íŒŒì¼(ë¦¬ìŠ¤íŠ¸)ì—´ê¸° í•¨ìˆ˜
 {
     int delete_pos = 0;
     load_road_Region(filename);
@@ -29,7 +31,7 @@ int List_del_BM(const char* filename)
     {
         if (strcmp(R[i].nickname, " ") == 0)
         {
-            // ±×³É ³Ñ±è
+            // ê·¸ëƒ¥ ë„˜ê¹€
         }
         else
         {
@@ -40,13 +42,13 @@ int List_del_BM(const char* filename)
         }
     }
     gotoxy(42, 19);
-    printf("»èÁ¦ÇÒ Áñ°ÜÃ£±â¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä >> ");
+    printf("ì‚­ì œí•  ì¦ê²¨ì°¾ê¸°ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš” >> ");
     scanf("%d", &delete_pos);
 
     while (delete_pos == 0 || delete_pos + 1 > count_num)
     {
         gotoxy(42, 19);
-        printf("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä >> ");
+        printf("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš” >> ");
 
         gotoxy(82, 19);
         printf("       ");
@@ -56,47 +58,47 @@ int List_del_BM(const char* filename)
     return delete_pos;
 }
 
-void Delete(const char* filename, const char* targetArea, int delete_num)
+void Delete(const char* filename, const char* targetArea, int delete_num) // í•´ë‹¹ ì„ íƒí•œ ë³„ëª… ì‚­ì œ í•¨ìˆ˜
 {
-    FILE* file = fopen(filename, "r");  // ÀÔ·Â ÆÄÀÏ ¿­±â
-    FILE* tempFile = fopen("temp.txt", "w");  // ÀÓ½Ã ÆÄÀÏ ¿­±â
+    FILE* file = fopen(filename, "r");  // ì…ë ¥ íŒŒì¼ ì—´ê¸°
+    FILE* tempFile = fopen("temp.txt", "w");  // ì„ì‹œ íŒŒì¼ ì—´ê¸°
 
     if (file == NULL || tempFile == NULL) {
-        printf("ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù.\n");
+        printf("íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
         return;
     }
 
     char line[100];
 
     while (fgets(line, sizeof(line), file)) {
-        line[strcspn(line, "\n")] = '\0';  // °³Çà ¹®ÀÚ Á¦°Å
+        line[strcspn(line, "\n")] = '\0';  // ê°œí–‰ ë¬¸ì ì œê±°
 
         char* start = strchr(line, '(');
         if (start != NULL) {
-            *start = '\0';  // Áö¿ª ¹®ÀÚ¿­ Á¾·á
+            *start = '\0';  // ì§€ì—­ ë¬¸ìì—´ ì¢…ë£Œ
 
-            // »èÁ¦ÇÒ Áö¿ª°ú ÀÏÄ¡ÇÏ´Â °æ¿ì
+            // ì‚­ì œí•  ì§€ì—­ê³¼ ì¼ì¹˜í•˜ëŠ” ê²½ìš°
             if (strcmp(line, targetArea) == 0) {
-                fprintf(tempFile, "%s( )\n", line);  // º°¸í À¯Áö
+                fprintf(tempFile, "%s( )\n", line);  // ë³„ëª… ìœ ì§€
                 continue;
             }
         }
-        fprintf(tempFile, "%s(%s\n", line, start + 1); // ÀÓ½Ã ÆÄÀÏ¿¡ ³»¿ë ±â·Ï
+        fprintf(tempFile, "%s(%s\n", line, start + 1); // ì„ì‹œ íŒŒì¼ì— ë‚´ìš© ê¸°ë¡
     }
     fclose(file);
     fclose(tempFile);
 
-    remove(filename);  // ¿øº» ÆÄÀÏ »èÁ¦
-    rename("temp.txt", filename);  // ÀÓ½Ã ÆÄÀÏÀ» ¿øº» ÆÄÀÏ ÀÌ¸§À¸·Î º¯°æ
+    remove(filename);  // ì›ë³¸ íŒŒì¼ ì‚­ì œ
+    rename("temp.txt", filename);  // ì„ì‹œ íŒŒì¼ì„ ì›ë³¸ íŒŒì¼ ì´ë¦„ìœ¼ë¡œ ë³€ê²½
 
     gotoxy(42, 21);
-    printf("Áñ°ÜÃ£±â %d¹øÀ» »èÁ¦ÇÏ¿´½À´Ï´Ù.\n", delete_num);
-    count_num = 1; // Áñ°ÜÃ£±â ¹øÈ£ ÃÊ±âÈ­
+    printf("ì¦ê²¨ì°¾ê¸° %dë²ˆì„ ì‚­ì œí•˜ì˜€ìŠµë‹ˆë‹¤.\n", delete_num);
+    count_num = 1; // ì¦ê²¨ì°¾ê¸° ë²ˆí˜¸ ì´ˆê¸°í™”
     gotoxy(42, 23);
     printf("please press the enter...");
 }
 
-void menu3() 
+void menu3() // ìµœì¢… ë©”ë‰´ 3ë²ˆ í•¨ìˆ˜
 {
     del_BM();
 }
