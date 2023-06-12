@@ -7,6 +7,7 @@
 #include "menu.h"
 #include "menu1.h"
 
+#define _CRT_SECURE_NO_WARNINGS
 
 void load_road_Region(char* filename);
 void You_Find_Road();
@@ -17,28 +18,28 @@ void T_R_Result();
 void save_recent_path(char start[], char finish[]);
 
 
-void load_road_Region(char* filename)
+void load_road_Region(char* filename) // ì§€ì—­ íŒŒì¼ ì—´ê¸°
 {
 	int i;
 	char Reg[100];
 	FILE* fp = fopen(filename, "r");
 	if (fp != NULL)
 	{
-		//printf("ÆÄÀÏ ¿­±â ¼º°ø\n");
+		//printf("íŒŒì¼ ì—´ê¸° ì„±ê³µ\n");
 	}
 	else
 	{
-		//printf("ÆÄÀÏ ¿­±â ½ÇÆĞ\n");
-		return; // ÆÄÀÏ ¿­±â ½ÇÆĞ ½Ã ÇÔ¼ö Á¾·á
+		//printf("íŒŒì¼ ì—´ê¸° ì‹¤íŒ¨\n");
+		return; // íŒŒì¼ ì—´ê¸° ì‹¤íŒ¨ ì‹œ í•¨ìˆ˜ ì¢…ë£Œ
 	}
 
 	for (i = 0; i < 10; i++)
 	{
-		if (fgets(Reg, sizeof(Reg) + 1, fp) != NULL) // ÇÑ ÁÙ¾¿ ÀĞ±â
+		if (fgets(Reg, sizeof(Reg) + 1, fp) != NULL) // í•œ ì¤„ì”© ì½ê¸°
 		{
-			char* token = strtok(Reg, "("); // "(" Àü±îÁö tokenÀ¸·Î ÀúÀå
-			if (token != NULL) // ÀĞ¾îµå·ÈÀ¸¸é
-				strncpy(R[i].region, token, sizeof(R[i].region)); // ¹®ÀÚ¿­ º¹»ç
+			char* token = strtok(Reg, "("); // "(" ì „ê¹Œì§€ tokenìœ¼ë¡œ ì €ì¥
+			if (token != NULL) // ì½ì–´ë“œë ¸ìœ¼ë©´
+				strncpy(R[i].region, token, sizeof(R[i].region)); // ë¬¸ìì—´ ë³µì‚¬
 
 			token = strtok(NULL, ")");
 			if (token != NULL)
@@ -46,14 +47,14 @@ void load_road_Region(char* filename)
 		}
 		else
 		{
-			break; // ÆÄÀÏÀÇ ³¡¿¡ µµ´ŞÇÑ °æ¿ì ¹İº¹¹® Á¾·á
+			break; // íŒŒì¼ì˜ ëì— ë„ë‹¬í•œ ê²½ìš° ë°˜ë³µë¬¸ ì¢…ë£Œ
 		}
 	}
-	fclose(fp); // ÆÄÀÏ ´İ±â
+	fclose(fp); // íŒŒì¼ ë‹«ê¸°
 }
 
 
-void You_Find_Road()
+void You_Find_Road() // ê¸¸ì°¾ê¸° ì „ì²´ í•¨ìˆ˜
 {
 	char* start;
 	char* finish;
@@ -70,14 +71,14 @@ void You_Find_Road()
 
 }
 
-int start_point()
+int start_point() // ì¶œë°œì§€ ì…ë ¥ í•¨ìˆ˜
 {
 	char* start_reg[5];
 	int i;
 	int start_pos = -1;
 
 	gotoxy(42, 6);
-	printf("            Ãâ¹ßÁö : ");
+	printf("            ì¶œë°œì§€ : ");
 	scanf("%s", start_reg);
 
 	for (i = 0; i < vsize; i++)
@@ -85,7 +86,7 @@ int start_point()
 		if (strcmp(start_reg, R[i].region) == 0 || strcmp(start_reg, R[i].nickname) == 0)
 		{
 			start_pos = i;
-			//printf("Ãâ¹ßÁö °í¸¥ À§Ä¡ : %d\n", start_pos);
+			//printf("ì¶œë°œì§€ ê³ ë¥¸ ìœ„ì¹˜ : %d\n", start_pos);
 		}
 	}
 	if (start_pos == -1)
@@ -96,9 +97,9 @@ int start_point()
 
 
 		gotoxy(40, 25);
-		printf("ÀÌ Áö¿ªÀº U_R ¸Ê¿¡ ÇØ´çÇÏÁö ¾Ê´Â Áö¿ªÀÔ´Ï´Ù.");
+		printf("ì´ ì§€ì—­ì€ U_R ë§µì— í•´ë‹¹í•˜ì§€ ì•ŠëŠ” ì§€ì—­ì…ë‹ˆë‹¤.");
 		gotoxy(52, 26);
-		printf("´Ù½Ã ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.\n");
+		printf("ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.\n");
 		start_point();
 	}
 	else
@@ -112,7 +113,7 @@ int start_point()
 	}
 }
 
-int end_point()
+int end_point() // ë„ì°©ì§€ ì…ë ¥ í•¨ìˆ˜
 {
 	char* finish_reg[5];
 	int i;
@@ -120,7 +121,7 @@ int end_point()
 	
 
 	gotoxy(42, 7);
-	printf("            µµÂøÁö : ");
+	printf("            ë„ì°©ì§€ : ");
 	scanf("%s", finish_reg);
 
 	for (i = 0; i < vsize; i++)
@@ -137,9 +138,9 @@ int end_point()
 		printf("                  ");
 
 		gotoxy(40, 25);
-		printf("ÀÌ Áö¿ªÀº U_R ¸Ê¿¡ ÇØ´çÇÏÁö ¾Ê´Â Áö¿ªÀÔ´Ï´Ù.");
+		printf("ì´ ì§€ì—­ì€ U_R ë§µì— í•´ë‹¹í•˜ì§€ ì•ŠëŠ” ì§€ì—­ì…ë‹ˆë‹¤.");
 		gotoxy(52, 26);
-		printf("´Ù½Ã ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.\n");
+		printf("ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.\n");
 
 		end_point();
 	}
@@ -154,22 +155,22 @@ int end_point()
 	}
 }
 
-int Transport()
+int Transport() // ì´ìš©ìˆ˜ë‹¨ ì„ íƒ í•¨ìˆ˜
 {
 	int num = 0;
 
 	gotoxy(42, 8);
 	printf("========================================");
 	gotoxy(42, 9);
-	printf("              ÀÌ¿ë ¼ö´Ü                 ");
+	printf("              ì´ìš© ìˆ˜ë‹¨                 ");
 	gotoxy(42, 10);
-	printf("               1. µµº¸                  ");
+	printf("               1. ë„ë³´                  ");
 	gotoxy(42, 11);
-	printf("               2. ÀÚµ¿Â÷                ");
+	printf("               2. ìë™ì°¨                ");
 	gotoxy(42, 12);
-	printf("               3. ´ëÁß±³Åë              ");
+	printf("               3. ëŒ€ì¤‘êµí†µ              ");
 	gotoxy(42, 13);
-	printf("               4. ÀÚÀü°Å                ");
+	printf("               4. ìì „ê±°                ");
 	gotoxy(42, 14);
 	printf(">> ");
 	scanf("%d", &num);
@@ -181,7 +182,7 @@ int Transport()
 	else
 	{
 		gotoxy(40, 25);
-		printf("¹øÈ£¸¦ Àß¸øÀÔ·ÂÇÏ¼Ì½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
+		printf("ë²ˆí˜¸ë¥¼ ì˜ëª»ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤.");
 
 		gotoxy(44, 14);
 		printf("  ");
@@ -192,75 +193,72 @@ int Transport()
 	}
 }
 
-void T_R_Result(int start, int end)
+void T_R_Result(int start, int end) // ì‹œê°„, ê±°ë¦¬, í˜„ì¬ì‹œê°„, ë„ì°©ì‹œê°„ì„ ì¶œë ¥í•´ì£¼ëŠ” í•¨ìˆ˜
 {
 	int Trans_num = Transport();
 	char Trans[20] = "\0";
 	int dist = print_shortest_path(start, end);
 
-	time_t timer = time(NULL); // ÇöÀç½Ã°£ Ãâ·ÂÇØÁÖ´Â ½Ã°£ÇÔ¼ö
+	time_t timer = time(NULL); // í˜„ì¬ì‹œê°„ ì¶œë ¥í•´ì£¼ëŠ” ì‹œê°„í•¨ìˆ˜
 	struct tm* t = localtime(&timer);
 
-	double minute = 0.6 * (double)dist * 1.0;// ±³Åë¼ö´Ü ¶§ ¹è¼ö¸¦ °öÇÏ±â À§ÇØ¼­
+	double minute = 0.6 * (double)dist * 1.0;// êµí†µìˆ˜ë‹¨ ë•Œ ë°°ìˆ˜ë¥¼ ê³±í•˜ê¸° ìœ„í•´ì„œ
 	int hour = minute / 60;
 
 	minute = minute - (hour * 60);
 
-	// ±³Åë¼ö´Ü ´ç ¹è¼ö¸¦ °öÇÏ¸é¼­ °Å¸® °è»ê
+	// êµí†µìˆ˜ë‹¨ ë‹¹ ë°°ìˆ˜ë¥¼ ê³±í•˜ë©´ì„œ ê±°ë¦¬ ê³„ì‚°
 	if (Trans_num == 1)
 	{
-		strcpy(Trans, "µµº¸");
+		strcpy(Trans, "ë„ë³´");
 		hour *= 15;
-		// ¿©±â¼­ ´ëÃæ °Å¸®´ç ¸îºĞ °É¸®´ÂÁö Á¤ÇÏ¸é °öÇØÁÖ¸é µÊ
-		// ÀÏ´Ü ±×³É ½±°Ô ÀÚµ¿Â÷ ±âÁØÀ¸·Î 1.5km´ç 1ºĞ °É¸°´Ù°í ÇÏÀÚ
-		// °³ÀÎÀûÀÎ »ı°¢ÀÎµ¥ ÀÚµ¿Â÷¸¦ ±âÁØÀ¸·Î ´Ù¸¥°É ÁÙÀÌ´Â°Ô ³ªÀ» ¼öµµ ÀÖ´Ù.
+
 	}
 	else if (Trans_num == 2)
 	{
-		strcpy(Trans, "ÀÚµ¿Â÷");
+		strcpy(Trans, "ìë™ì°¨");
 		hour *= 1.0;
 	}
 	else if (Trans_num == 3)
 	{
-		strcpy(Trans, "´ëÁß±³Åë");
+		strcpy(Trans, "ëŒ€ì¤‘êµí†µ");
 		hour *= 1.5;
-		// ·£´ıÀ¸·Î 3°³Á¤µµ ¸¸µç´ÙÀ½ ±ÙÃ³¿¡ ¹ö½º°¡ ¾øÀ¸¸é 10ºĞÀ» ´õÇÑ´Ù.
-		// ½Ã°£ »ó ¾ø´Â °ü°è·Î ÆĞ½º
+
 	}
 	else if (Trans_num == 4)
 	{
-		strcpy(Trans, "ÀÚÀü°Å");
+		strcpy(Trans, "ìì „ê±°");
 		hour *= 5;
 	}
 
 	gotoxy(42, 15);
-	printf("========================================"); // °á°úÃ¢ UI¸¦ ¿Å°ÜÁÖ´Â Ä¿¼­ÇÔ¼ö
+	printf("========================================"); // ê²°ê³¼ì°½ UIë¥¼ ì˜®ê²¨ì£¼ëŠ” ì»¤ì„œí•¨ìˆ˜
 	gotoxy(42, 16);
 
-	if (strcmp(R[start].nickname, " ") == 0) // ¾Õ º°¸í ¾øÀ½
+	if (strcmp(R[start].nickname, " ") == 0) // ì• ë³„ëª… ì—†ìŒ
 	{
-		if (strcmp(R[end].nickname, " ") == 0) // µÚ º°¸í ¾øÀ½
-			printf("%s ¡æ %s±îÁö ", R[start].region, R[end].region);
-		else // µÚ º°¸í ÀÖÀ½
-			printf("%s ¡æ %s(%s)±îÁö ", R[start].region, R[end].nickname, R[end].region);
+		if (strcmp(R[end].nickname, " ") == 0) // ë’¤ ë³„ëª… ì—†ìŒ
+			printf("%s â†’ %sê¹Œì§€ ", R[start].region, R[end].region);
+		else // ë’¤ ë³„ëª… ìˆìŒ
+			printf("%s â†’ %s(%s)ê¹Œì§€ ", R[start].region, R[end].nickname, R[end].region);
 	}
-	else // ¾Õ º°¸í ÀÖÀ½
+	else // ì• ë³„ëª… ìˆìŒ
 	{
-		if (strcmp(R[end].nickname, " ") == 0)   // µÚ º°¸í ¾øÀ½
-			printf("%s(%s) ¡æ %s±îÁö ", R[start].nickname, R[start].region, R[end].region);
-		else // µÚ º°¸í ÀÖÀ½
-			printf("%s(%s) ¡æ %s(%s)±îÁö ", R[start].nickname, R[start].region, R[end].nickname, R[end].region);
+		if (strcmp(R[end].nickname, " ") == 0)   // ë’¤ ë³„ëª… ì—†ìŒ
+			printf("%s(%s) â†’ %sê¹Œì§€ ", R[start].nickname, R[start].region, R[end].region);
+		else // ë’¤ ë³„ëª… ìˆìŒ
+			printf("%s(%s) â†’ %s(%s)ê¹Œì§€ ", R[start].nickname, R[start].region, R[end].nickname, R[end].region);
 	}
 	gotoxy(42, 17);
-	printf("%s ÀÌµ¿ ½Ã, °Å¸® %dkm, ¼Ò¿ä½Ã°£ %d½Ã°£ %.0lfºĞ\n\n", Trans, dist, hour, minute);
-	// minute´Â Ãâ·ÂÇÒ ¶© Á¤¼ö·Î ¹Ù²Ü ¿¹Á¤
+	printf("%s ì´ë™ ì‹œ, ê±°ë¦¬ %dkm, ì†Œìš”ì‹œê°„ %dì‹œê°„ %.0lfë¶„\n\n", Trans, dist, hour, minute);
+	// minuteëŠ” ì¶œë ¥í•  ë• ì •ìˆ˜ë¡œ ë°”ê¿€ ì˜ˆì •
 
 	int new_min = (t->tm_min) + (int)minute;
 	int new_hour = ((t->tm_hour) + hour + (new_min / 60)) % 24;
 	new_min = new_min % 60;
 
 	gotoxy(42, 18);
-	printf("ÇöÀç ½Ã°£ : %d½Ã %dºĞ, µµÂø ½Ã°£ : %d½Ã %dºĞ", t->tm_hour, t->tm_min, new_hour, new_min);
+	printf("í˜„ì¬ ì‹œê°„ : %dì‹œ %dë¶„, ë„ì°© ì‹œê°„ : %dì‹œ %dë¶„", t->tm_hour, t->tm_min, new_hour, new_min);
 
 	save_recent_path(start, end, hour, minute);
 
@@ -269,23 +267,23 @@ void T_R_Result(int start, int end)
 	return 0;
 }
 
-void save_recent_path(int start, int finish, int hour, double minute)
+void save_recent_path(int start, int finish, int hour, double minute) // ìµœê·¼ê±°ë¦¬ íŒŒì¼ ì…ë ¥í•¨ìˆ˜
 {
 	FILE* fp = fopen("Recent Paths.txt", "a");
 	if (fp != NULL)
 	{
-		fprintf(fp, "%s -> %s / ¼Ò¿ä½Ã°£ %d½Ã°£ %.0lfºĞ\n", R[start].region, R[finish].region, hour, minute);
+		fprintf(fp, "%s -> %s / ì†Œìš”ì‹œê°„ %dì‹œê°„ %.0lfë¶„\n", R[start].region, R[finish].region, hour, minute);
 		fclose(fp);
 		gotoxy(42, 20);
-		printf("ÃÖ±Ù °æ·Î°¡ ¼º°øÀûÀ¸·Î ÀúÀåµÇ¾ú½À´Ï´Ù.\n");
+		printf("ìµœê·¼ ê²½ë¡œê°€ ì„±ê³µì ìœ¼ë¡œ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.\n");
 	}
 	else
 	{
-		printf("ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù. ÃÖ±Ù °æ·Î¸¦ ÀúÀåÇÏÁö ¸øÇß½À´Ï´Ù.\n");
+		printf("íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ìµœê·¼ ê²½ë¡œë¥¼ ì €ì¥í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.\n");
 	}
 }
 
-void menu1()
+void menu1() // ìµœì¢… ë©”ë‰´ 1ë²ˆ í•¨ìˆ˜
 {
 	You_Find_Road();
 }
