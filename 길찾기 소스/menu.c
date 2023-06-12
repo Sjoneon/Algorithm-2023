@@ -239,7 +239,6 @@ void mainpage() // 메인 함수 - 표지 함수
 }
 
 int main(void) {
-    int people = 0;
     while (1) {
         system("cls");  // 화면을 지우고 새로운 UI 페이지로 넘어감
         mainpage();
