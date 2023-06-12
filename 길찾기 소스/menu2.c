@@ -7,36 +7,39 @@
 #include "menu1.h"
 #include "menu2.h"
 
-void add_BM()
+#define _CRT_SECURE_NO_WARNINGS
+
+void add_BM() // ë³„ëª… ì¶”ê°€í•¨ìˆ˜
 {
     List_add_BM("Region.txt");
     Register("Region.txt");
 }
 
-void List_add_BM(const char* filename)
+void List_add_BM(const char* filename) // ë³„ëª…(ì§€ì—­)íŒŒì¼(ë¦¬ìŠ¤íŠ¸)ì—´ê¸° í•¨ìˆ˜
 {
     load_road_Region(filename);
 }
 
 
-int check_region(const char* filename, const char* region) {
-    FILE* file = fopen(filename, "r");  // ÀÔ·Â ÆÄÀÏ ¿­±â
+int check_region(const char* filename, const char* region)  // ì§€ì—­ ì—¬ë¶€ í™•ì¸ í•¨ìˆ˜
+{
+    FILE* file = fopen(filename, "r");  // ì…ë ¥ íŒŒì¼ ì—´ê¸°
 
     if (file == NULL) {
-        printf("ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù.\n");
+        printf("íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
         return 0;
     }
 
     char line[100];
 
     while (fgets(line, sizeof(line), file)) {
-        line[strcspn(line, "\n")] = '\0';  // °³Çà ¹®ÀÚ Á¦°Å
+        line[strcspn(line, "\n")] = '\0';  // ê°œí–‰ ë¬¸ì ì œê±°
 
         char* start = strchr(line, '(');
         if (start != NULL) {
-            *start = '\0';  // Áö¿ª ¹®ÀÚ¿­ Á¾·á
+            *start = '\0';  // ì§€ì—­ ë¬¸ìì—´ ì¢…ë£Œ
 
-            // ±âÁ¸¿¡ ÇØ´ç Áö¿ªÀÌ ÀÖ´Â ÁÙÀ» Ã£À½
+            // ê¸°ì¡´ì— í•´ë‹¹ ì§€ì—­ì´ ìˆëŠ” ì¤„ì„ ì°¾ìŒ
             if (strcmp(line, region) == 0) {
                 fclose(file);
                 return 1;
@@ -48,13 +51,13 @@ int check_region(const char* filename, const char* region) {
     return 0;
 }
 
-void Register(const char* filename)
+void Register(const char* filename) // ì§€ì—­ ë“±ë¡ í•¨ìˆ˜
 {
     char region[50];
     char nickname[50];
 
     gotoxy(42, 17);
-    printf("Ãß°¡ÇÒ Áö¿ªÀ» ÀÔ·ÂÇÏ¼¼¿ä: ");
+    printf("ì¶”ê°€í•  ì§€ì—­ì„ ì…ë ¥í•˜ì„¸ìš”: ");
     scanf("%s", region);
 
     
@@ -71,60 +74,55 @@ void Register(const char* filename)
             printf("           ");
 
             gotoxy(47, 17);
-            printf("ÇØ´ç Áö¿ªÀº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            printf("í•´ë‹¹ ì§€ì—­ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             gotoxy(49, 18);
-            printf("´Ù½Ã ÀÔ·ÂÇØÁÖ½Ê½Ã¿À >> ", region);
+            printf("ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì‹­ì‹œì˜¤ >> ", region);
             scanf("%s", region);
         }
         else
         {
             gotoxy(42, 20);
-            printf("Ãß°¡ÇÒ º°¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä: ");
+            printf("ì¶”ê°€í•  ë³„ëª…ì„ ì…ë ¥í•˜ì„¸ìš”: ");
             scanf("%s", nickname);
-            if (strcmp(nickname, "-1") == 0) {
-                system("cls");
-                mainpage(); // ¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°¡´Â ÇÔ¼ö È£Ãâ
-                return;
-            }
 
-            FILE* file = fopen(filename, "r");  // ÀÔ·Â ÆÄÀÏ ¿­±â
-            FILE* tempFile = fopen("temp.txt", "w");  // ÀÓ½Ã ÆÄÀÏ ¿­±â
+            FILE* file = fopen(filename, "r");  // ì…ë ¥ íŒŒì¼ ì—´ê¸°
+            FILE* tempFile = fopen("temp.txt", "w");  // ì„ì‹œ íŒŒì¼ ì—´ê¸°
 
             if (file == NULL || tempFile == NULL) {
-                printf("ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù.\n");
+                printf("íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
                 return;
             }
 
             char line[100];
 
             while (fgets(line, sizeof(line), file)) {
-                line[strcspn(line, "\n")] = '\0';  // °³Çà ¹®ÀÚ Á¦°Å
+                line[strcspn(line, "\n")] = '\0';  // ê°œí–‰ ë¬¸ì ì œê±°
 
                 char* start = strchr(line, '(');
                 if (start != NULL) {
-                    *start = '\0';  // Áö¿ª ¹®ÀÚ¿­ Á¾·á
+                    *start = '\0';  // ì§€ì—­ ë¬¸ìì—´ ì¢…ë£Œ
 
-                    // ±âÁ¸¿¡ ÇØ´ç Áö¿ªÀÌ ÀÖ´Â ÁÙÀ» Ã£¾Æ º°¸íÀ» µ¤¾î¾º¿ò
+                    // ê¸°ì¡´ì— í•´ë‹¹ ì§€ì—­ì´ ìˆëŠ” ì¤„ì„ ì°¾ì•„ ë³„ëª…ì„ ë®ì–´ì”Œì›€
                     if (strcmp(line, region) == 0) {
-                        fprintf(tempFile, "%s(%s)\n", region, nickname); // »õ·Î¿î Áö¿ª°ú º°¸íÀ¸·Î µ¤¾î¾²±â
+                        fprintf(tempFile, "%s(%s)\n", region, nickname); // ìƒˆë¡œìš´ ì§€ì—­ê³¼ ë³„ëª…ìœ¼ë¡œ ë®ì–´ì“°ê¸°
                     }
                     else {
-                        fprintf(tempFile, "%s(%s\n", line, start + 1); // ÀÓ½Ã ÆÄÀÏ¿¡ ³»¿ë ±â·Ï
+                        fprintf(tempFile, "%s(%s\n", line, start + 1); // ì„ì‹œ íŒŒì¼ì— ë‚´ìš© ê¸°ë¡
                     }
                 }
                 else {
-                    fprintf(tempFile, "%s\n", line); // ÀÓ½Ã ÆÄÀÏ¿¡ ³»¿ë ±â·Ï
+                    fprintf(tempFile, "%s\n", line); // ì„ì‹œ íŒŒì¼ì— ë‚´ìš© ê¸°ë¡
                 }
             }
 
             fclose(file);
             fclose(tempFile);
 
-            remove(filename);  // ¿øº» ÆÄÀÏ »èÁ¦
-            rename("temp.txt", filename);  // ÀÓ½Ã ÆÄÀÏÀ» ¿øº» ÆÄÀÏ ÀÌ¸§À¸·Î º¯°æ
+            remove(filename);  // ì›ë³¸ íŒŒì¼ ì‚­ì œ
+            rename("temp.txt", filename);  // ì„ì‹œ íŒŒì¼ì„ ì›ë³¸ íŒŒì¼ ì´ë¦„ìœ¼ë¡œ ë³€ê²½
 
             gotoxy(42, 22);
-            printf("º°¸íÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù.\n");
+            printf("ë³„ëª…ì´ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.\n");
             gotoxy(42, 24);
             printf("please press the enter...");
             break;
@@ -132,7 +130,7 @@ void Register(const char* filename)
     }
 }
 
-void menu2() 
+void menu2() // ìµœì¢… ë©”ë‰´ 2ë²ˆ í•¨ìˆ˜
 {
     add_BM();
 }
