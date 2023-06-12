@@ -10,98 +10,101 @@
 #include "menu.h"
 
 char save = 72;
-int selectedOption = 1;  // ¼±ÅÃµÈ ¿É¼ÇÀ» ÀúÀåÇÒ º¯¼ö, ±âº»°ªÀ¸·Î 1 ¼³Á¤
+int selectedOption = 1;  // ì„ íƒëœ ì˜µì…˜ì„ ì €ì¥í•  ë³€ìˆ˜, ê¸°ë³¸ê°’ìœ¼ë¡œ 1 ì„¤ì •
 
-void gotoxy(int x, int y) {
+void gotoxy(int x, int y) // ì¢Œí‘œ ì´ë™ í•¨ìˆ˜ 
+{
     COORD pos;
     pos.X = x - 1;
     pos.Y = y - 1;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void point(int x, int y) {
+void point(int x, int y) // í™”ì‚´í‘œ ì´ë™ í•¨ìˆ˜ 
+{
     char key = 72;
     while (key != 13) {
         key = _getch();
         if (key == 72 || key == 80) {
             gotoxy(x, y + (selectedOption - 1) * 2);
-            printf(" ");  // ÀÌÀü ¼±ÅÃµÈ ¿É¼ÇÀÇ È­»ìÇ¥ »èÁ¦
+            printf(" ");  // ì´ì „ ì„ íƒëœ ì˜µì…˜ì˜ í™”ì‚´í‘œ ì‚­ì œ
 
-            if (key == 72) {  // À§ÂÊ È­»ìÇ¥ Å°
+            if (key == 72) {  // ìœ„ìª½ í™”ì‚´í‘œ í‚¤
                 selectedOption = (selectedOption - 1 <= 0) ? 5 : selectedOption - 1;
             }
-            else if (key == 80) {  // ¾Æ·¡ÂÊ È­»ìÇ¥ Å°
+            else if (key == 80) {  // ì•„ë˜ìª½ í™”ì‚´í‘œ í‚¤
                 selectedOption = (selectedOption + 1 > 5) ? 1 : selectedOption + 1;
             }
 
             gotoxy(x, y + (selectedOption - 1) * 2);
-            printf("¢º");  // »õ·Î ¼±ÅÃµÈ ¿É¼Ç¿¡ È­»ìÇ¥ Ç¥½Ã
+            printf("â–¶");  // ìƒˆë¡œ ì„ íƒëœ ì˜µì…˜ì— í™”ì‚´í‘œ í‘œì‹œ
         }
     }
 }
 
-void s(void) //³×¸ğ³­ ¹Ú½º
+void s(void) //ë„¤ëª¨ë‚œ ë°•ìŠ¤ ë§Œë“œëŠ” í•¨ìˆ˜
 {
-    printf("                               ¦£");
-    for (int i = 0; i < 58; i++) {  // 1 ¿À¸¥ÂÊ ³Êºñ ¿©±â·Î ÁÙÀÓ
-        printf("¦¡");
+    printf("                               â”Œ");
+    for (int i = 0; i < 58; i++) {  // 1 ì˜¤ë¥¸ìª½ ë„ˆë¹„ ì—¬ê¸°ë¡œ ì¤„ì„
+        printf("â”€");
     }
-    printf("¦¤");
+    printf("â”");
     for (int i = 2; i <= 28; i++) {
-        gotoxy(91, i);// 2 ¿À¸¥ÂÊ ³Êºñ ¿©±â·Î ÁÙÀÓ
-        printf("¦¢");
+        gotoxy(91, i);// 2 ì˜¤ë¥¸ìª½ ë„ˆë¹„ ì—¬ê¸°ë¡œ ì¤„ì„
+        printf("â”‚");
     }
-    gotoxy(91, 29);// 3 ¿À¸¥ÂÊ ³Êºñ ¿©±â·Î ÁÙÀÓ
-    printf("¦¥");
-    for (int i = 60; i > 2; i--) {// 4, 60Àú°Å ¿À¸¥ÂÊ ³Êºñ ¿©±â·Î ÁÙÀÓ
+    gotoxy(91, 29);// 3 ì˜¤ë¥¸ìª½ ë„ˆë¹„ ì—¬ê¸°ë¡œ ì¤„ì„
+    printf("â”˜");
+    for (int i = 60; i > 2; i--) {// 4, 60ì €ê±° ì˜¤ë¥¸ìª½ ë„ˆë¹„ ì—¬ê¸°ë¡œ ì¤„ì„
         gotoxy(i + 30, 29);
-        printf("¦¡");
+        printf("â”€");
     }
     gotoxy(32, 29);
-    printf("¦¦");
+    printf("â””");
     for (int i = 28; i > 1; i--) {
         gotoxy(32, i);
-        printf("¦¢");
+        printf("â”‚");
     }
 }
 
-void printMenu(int x, int y) {
+void printMenu(int x, int y) // ì£¼ìš”í•¨ìˆ˜ - ë©”ë‰´ì–¼
+{
     gotoxy(x, y);
-    printf("    1. ±æ Ã£±â");
+    printf("    1. ê¸¸ ì°¾ê¸°");
     gotoxy(x, y + 2);
-    printf("    2. Áñ°ÜÃ£±â Ãß°¡");
+    printf("    2. ì¦ê²¨ì°¾ê¸° ì¶”ê°€");
     gotoxy(x, y + 4);
-    printf("    3. Áñ°ÜÃ£±â »èÁ¦");
+    printf("    3. ì¦ê²¨ì°¾ê¸° ì‚­ì œ");
     gotoxy(x, y + 6);
-    printf("    4. ÃÖ±Ù ±â·Ï");
+    printf("    4. ìµœê·¼ ê¸°ë¡");
     gotoxy(x, y + 8);
-    printf("    5. Á¾·á");
+    printf("    5. ì¢…ë£Œ");
     gotoxy(x, y + 10);
     printf("========================================");
 }
 
-void sub1page()
+void sub1page() // 1ë²ˆ ë©”ë‰´
 {
     s();
     gotoxy(42, 5);
     printf("========================================");
     //gotoxy(42, 6);
-    //printf("         ¿©±â´Ù°¡ Ãâ¹ßÁö ³Ö°í           ");
+    //printf("         ì—¬ê¸°ë‹¤ê°€ ì¶œë°œì§€ ë„£ê³            ");
    // gotoxy(42, 7);
-   // printf("         ¿©±â´Ù°¡ µµÂøÁö ³Ö°í           ");
+   // printf("         ì—¬ê¸°ë‹¤ê°€ ë„ì°©ì§€ ë„£ê³            ");
    /*
     gotoxy(42, 8);
     printf("========================================");
     gotoxy(42, 9);
-    printf("              ÀÌ¿ë ¼ö´Ü                 ");
+    printf("              ì´ìš© ìˆ˜ë‹¨                 ");
     gotoxy(42, 10);
-    printf("               1. µµº¸                  ");
+    printf("               1. ë„ë³´                  ");
     gotoxy(42, 11);
-    printf("               2. ÀÚµ¿Â÷                ");
+    printf("               2. ìë™ì°¨                ");
     gotoxy(42, 12);
-    printf("               3. ´ëÁß±³Åë              ");
+    printf("               3. ëŒ€ì¤‘êµí†µ              ");
     gotoxy(42, 13);
-    printf("               4. ÀÚÀü°Å                ");
+    printf("               4. ìì „ê±°                ");
     */
 
 
@@ -110,45 +113,45 @@ void sub1page()
 }
 
 
-void sub2page()
+void sub2page() // 2ë²ˆ ë©”ë‰´
 {
     s();
     gotoxy(42, 5);
     printf("========================================");
     gotoxy(42, 6);
-    printf("       1. ¼­¿ï    |   2. °­¸ª           ");
+    printf("       1. ì„œìš¸    |   2. ê°•ë¦‰           ");
     gotoxy(42, 7);
     printf("========================================");
     gotoxy(42, 8);
-    printf("       3. Ãµ¾È    |   4. Ã»ÁÖ           ");
+    printf("       3. ì²œì•ˆ    |   4. ì²­ì£¼           ");
     gotoxy(42, 9);
     printf("========================================");
     gotoxy(42, 10);
-    printf("       5. ´ëÀü    |   6. ³í»ê           ");
+    printf("       5. ëŒ€ì „    |   6. ë…¼ì‚°           ");
     gotoxy(42, 11);
     printf("========================================");
     gotoxy(42, 12);
-    printf("       7, Æ÷Ç×    |   8. ´ë±¸          ");
+    printf("       7, í¬í•­    |   8. ëŒ€êµ¬          ");
     gotoxy(42, 13);
     printf("========================================");
     gotoxy(42, 14);
-    printf("       9. ±¤ÁÖ    |   10. ºÎ»ê          ");
+    printf("       9. ê´‘ì£¼    |   10. ë¶€ì‚°          ");
     gotoxy(42, 15);
     printf("========================================");
 }
 
-void sub3page()
+void sub3page() // 3ë²ˆ ë©”ë‰´
 {
     s();
     gotoxy(42, 5);
     printf("========================================");
     gotoxy(42, 6);
-    printf("            Áñ°ÜÃ£±â ¸ñ·Ï               ");
+    printf("            ì¦ê²¨ì°¾ê¸° ëª©ë¡               ");
 
     gotoxy(42, 18);
     printf("========================================");
 }
-void RP()
+void RP() // ìµœê·¼ê¸°ë¡ 5ê°œ ì œí•œ
 {
     FILE* fp = fopen("Recent Paths.txt", "r");
     if (fp != NULL)
@@ -164,13 +167,13 @@ void RP()
         fclose(fp);
     }
 }
-void sub4page()
+void sub4page() // 4ë²ˆ ë©”ë‰´
 {
     s();
     gotoxy(42, 5);
     printf("========================================");
     gotoxy(42, 6);
-    printf("              ÃÖ±Ù ±â·Ï               ");
+    printf("              ìµœê·¼ ê¸°ë¡               ");
     RP();
     gotoxy(42, 14);
     printf("========================================");
@@ -179,70 +182,70 @@ void sub4page()
 }
 
 
-void mainpage()
+void mainpage() // ë©”ì¸ í•¨ìˆ˜ - í‘œì§€ í•¨ìˆ˜
 {
     s();
 
     gotoxy(42, 7);
     printf("========================================");
     gotoxy(42, 8);
-    printf("       ¾È³çÇÏ¼¼¿ä U_R ¸ÊÀÔ´Ï´Ù.");
+    printf("       ì•ˆë…•í•˜ì„¸ìš” U_R ë§µì…ë‹ˆë‹¤.");
     gotoxy(42, 9);
-    printf("         ¹«¾ùÀ» µµ¿Íµå¸±±î¿ä?");
+    printf("         ë¬´ì—‡ì„ ë„ì™€ë“œë¦´ê¹Œìš”?");
     gotoxy(42, 10);
     printf("========================================");
 
 
-    printMenu(42, 12);  // ¸Ş´º Ãâ·Â
+    printMenu(42, 12);  // ë©”ë‰´ ì„ íƒ, ì¶œë ¥ í•¨ìˆ˜
 
-    point(40, 12);  // ¸Ş´º ¼±ÅÃ
+    point(40, 12);  // ë©”ë‰´ ì„ íƒ
 
     if (selectedOption == 1) {
-        // ±æ Ã£±â ¿É¼Ç ¼±ÅÃ ½Ã Ã³¸®ÇÒ ÀÛ¾÷ Ãß°¡
+        // ê¸¸ ì°¾ê¸° ì˜µì…˜ ì„ íƒ ì‹œ ì²˜ë¦¬í•  ì‘ì—… ì¶”ê°€
         system("cls");
         sub1page();
         menu1();
     }
     else if (selectedOption == 2) {
-        // Áñ°ÜÃ£±â Ãß°¡ ¿É¼Ç ¼±ÅÃ ½Ã Ã³¸®ÇÒ ÀÛ¾÷ Ãß°¡
+        // ì¦ê²¨ì°¾ê¸° ì¶”ê°€ ì˜µì…˜ ì„ íƒ ì‹œ ì²˜ë¦¬í•  ì‘ì—… ì¶”ê°€
         system("cls");
         sub2page();
         menu2();
     }
     else if (selectedOption == 3) {
-        // Áñ°ÜÃ£±â »èÁ¦ ¿É¼Ç ¼±ÅÃ ½Ã Ã³¸®ÇÒ ÀÛ¾÷ Ãß°¡
+        // ì¦ê²¨ì°¾ê¸° ì‚­ì œ ì˜µì…˜ ì„ íƒ ì‹œ ì²˜ë¦¬í•  ì‘ì—… ì¶”ê°€
         system("cls");
         sub3page();
         menu3();
     }
     else if (selectedOption == 4) {
-        // ÃÖ±Ù ±â·Ï ¿É¼Ç ¼±ÅÃ ½Ã Ã³¸®ÇÒ ÀÛ¾÷ Ãß°¡
+        // ìµœê·¼ ê¸°ë¡ ì˜µì…˜ ì„ íƒ ì‹œ ì²˜ë¦¬í•  ì‘ì—… ì¶”ê°€
         system("cls");
         sub4page();
     }
     else if (selectedOption == 5) {
-        system("cls");  // È­¸é Áö¿ì°í »õ·Î¿î UI ÆäÀÌÁö·Î ³Ñ¾î°¨
+        system("cls");  // í™”ë©´ ì§€ìš°ê³  ìƒˆë¡œìš´ UI í˜ì´ì§€ë¡œ ë„˜ì–´ê°
         s();
         gotoxy(43, 12);
         printf("========================================");
         gotoxy(44, 13);
-        printf("       ÀÌ¿ëÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù.");
+        printf("       ì´ìš©í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤.");
         gotoxy(43, 14);
-        printf("            ÇÔ¼ö¸¦ Á¾·áÇÕ´Ï´Ù.");
+        printf("            í•¨ìˆ˜ë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤.");
         gotoxy(43, 15);
         printf("========================================");
-        return;  // ÇÔ¼ö Á¾·á
+        return;  // í•¨ìˆ˜ ì¢…ë£Œ
     }
 }
 
 int main(void) {
     int people = 0;
     while (1) {
-        system("cls");  // È­¸éÀ» Áö¿ì°í »õ·Î¿î UI ÆäÀÌÁö·Î ³Ñ¾î°¨
+        system("cls");  // í™”ë©´ì„ ì§€ìš°ê³  ìƒˆë¡œìš´ UI í˜ì´ì§€ë¡œ ë„˜ì–´ê°
         mainpage();
         _getch();
         if (selectedOption == 5) {
-            break;  // ¹İº¹¹® Á¾·á
+            break;  // ë°˜ë³µë¬¸ ì¢…ë£Œ
         }
     }
     return 0;
