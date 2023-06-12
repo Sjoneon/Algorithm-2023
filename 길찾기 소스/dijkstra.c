@@ -3,35 +3,37 @@
 #include "menu1.h"
 #define MAX_VTXS 256
 
-// ´ÙÀÍ½ºÆ®¶ó ¾Ë°í¸®Áò
+// ë‹¤ìµìŠ¤íŠ¸ë¼ ì•Œê³ ë¦¬ì¦˜
+
+#define _CRT_SECURE_NO_WARNINGS
 
 void error(char str[])
-{ // ¿À·ù ¸Ş¼¼Áö¸¦ Ãâ·ÂÇÏ°í ÇÁ·Î±×·¥À» Á¾·áÇÏ´Â ÇÔ¼ö
+{ // ì˜¤ë¥˜ ë©”ì„¸ì§€ë¥¼ ì¶œë ¥í•˜ê³  í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•˜ëŠ” í•¨ìˆ˜
 	printf("%s\n", str);
 	exit(1);
 }
 
-typedef struct VtxData
+typedef struct VtxData // ì§€ì—­ ì •ë³´ ë‹´ì•„ì£¼ëŠ” êµ¬ì¡°ì²´
 {
 	char name[50];
 } VtxData;
 
-// Á¤Á¡ÀÇ µ¥ÀÌÅÍ¸¦ ³ªÅ¸³»´Â Å¸ÀÔÀ¸·Î, ÇöÀç´Â char·Î Á¤ÀÇ
-int adj[MAX_VTXS][MAX_VTXS]; // ÀÎÁ¢ Çà·Ä·Î, Á¤Á¡ °£ÀÇ °¡ÁßÄ¡ Á¤º¸¸¦ ÀúÀå
-int vsize; // ±×·¡ÇÁÀÇ Á¤Á¡ °³¼ö¸¦ ÀúÀå
-VtxData vdata[MAX_VTXS]; // Á¤Á¡ÀÇ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Â ¹è¿­
+// ì •ì (ì§€ì—­)ì˜ ë°ì´í„°ë¥¼ ë‚˜íƒ€ë‚´ëŠ” íƒ€ì…ìœ¼ë¡œ, í˜„ì¬ëŠ” charë¡œ ì •ì˜
+int adj[MAX_VTXS][MAX_VTXS]; // ì¸ì ‘ í–‰ë ¬ë¡œ, ì •ì  ê°„ì˜ ê°€ì¤‘ì¹˜(ê±°ë¦¬) ì •ë³´ë¥¼ ì €ì¥
+int vsize; // ê·¸ë˜í”„(ì§€ì—­)ì˜ ì •ì  ê°œìˆ˜ë¥¼ ì €ì¥
+VtxData vdata[MAX_VTXS]; // ì •ì (ì§€ì—­)ì˜ ë°ì´í„°ë¥¼ ì €ì¥í•˜ëŠ” ë°°ì—´
 
-int is_empty_graph() // ±×·¡ÇÁ°¡ ºñ¾îÀÖ´ÂÁö È®ÀÎ
+int is_empty_graph() // ê·¸ë˜í”„ê°€ ë¹„ì–´ìˆëŠ”ì§€ í™•ì¸
 {
 	return (vsize == 0);
 }
 
-int is_full_graph() // ±×·¡ÇÁ°¡ °¡µæÃ¡´ÂÁö È®ÀÎ
+int is_full_graph() // ê·¸ë˜í”„ê°€ ê°€ë“ì°¼ëŠ”ì§€ í™•ì¸
 {
 	return (vsize >= MAX_VTXS);
 }
 
-void init_graph() // ±×·¡ÇÁ ÃÊ±âÈ­
+void init_graph() // ê·¸ë˜í”„ ì´ˆê¸°í™”
 {
 	int i, j;
 	vsize = 0;
@@ -44,133 +46,112 @@ void init_graph() // ±×·¡ÇÁ ÃÊ±âÈ­
 	}
 }
 
-void insert_vertex(VtxData name) // vertex »ğÀÔ
+void insert_vertex(VtxData name) // vertex(ì§€ì—­ ì •ë³´) ì‚½ì…
 {
 	if (is_full_graph())
 	{
-		error("Error: ±×·¡ÇÁ Á¤Á¡ÀÇ °³¼ö ÃÊ°ú");
+		error("Error: ê·¸ë˜í”„ ì •ì ì˜ ê°œìˆ˜ ì´ˆê³¼");
 	}
 	else
 		vdata[vsize++] = name;
-	// Á¤Á¡ÀÇ µ¥ÀÌÅÍ¸¦ vdata ¹è¿­¿¡ ÀúÀåÇÏ°í, 'vsize'°ªÀ» Áõ°¡½ÃÅ´
+	// ì •ì ì˜ ë°ì´í„°ë¥¼ vdata ë°°ì—´ì— ì €ì¥í•˜ê³ , 'vsize'ê°’ì„ ì¦ê°€ì‹œí‚´
 }
 
-void insert_edge(int u, int v, int val) // °¡ÁßÄ¡ »ğÀÔ
+void insert_edge(int u, int v, int val) // ê°€ì¤‘ì¹˜(ê±°ë¦¬) ì‚½ì…
 {
 	adj[u][v] = val;
 }
 
-void insert_edge2(int u, int v, int val)
+void insert_edge2(int u, int v, int val) // ë¬´ë°©í–¥ê·¸ë˜í”„ ë²„ì „
 {
-	adj[u][v] = adj[v][u] = val; // ¼­·Î ¹İ´ëµµ val°ªÀ¸·Î ¶È°°´Ù.
+	adj[u][v] = adj[v][u] = val; // ì„œë¡œ ë°˜ëŒ€ë„ valê°’ìœ¼ë¡œ ë˜‘ê°™ë‹¤.
 }
 
 #define INF 9999
-void load_wgraph(char* filename)
+void load_wgraph(char* filename) // Region.txtíŒŒì¼ì— ìˆëŠ” ì •ë³´ë“¤ì„ êµ¬ì¡°ì²´ë¡œ ì €ì¥í•´ì£¼ëŠ” í•¨ìˆ˜
 {
 	int i, j, val, n;
 	VtxData str[80];
 	FILE* fp = fopen(filename, "r");
 	if (fp != NULL)
 	{
-		init_graph(); // ±×·¡ÇÁÀÇ ÃÊ±âÈ­
-		fscanf(fp, "%d", &n); // ÆÄÀÏÀÇ Ã¹ ¹øÂ° ÁÙ¿¡¼­ ±×·¡ÇÁÀÇ Å©±â 'n'À» ºÒ·¯¿È
+		init_graph(); // ê·¸ë˜í”„ì˜ ì´ˆê¸°í™”
+		fscanf(fp, "%d", &n); // íŒŒì¼ì˜ ì²« ë²ˆì§¸ ì¤„ì—ì„œ ê·¸ë˜í”„ì˜ í¬ê¸° 'n'ì„ ë¶ˆëŸ¬ì˜´
 		for (i = 0; i < n; i++)
 		{
-			fscanf(fp, "%s", str[i].name); // µÎ ¹øÂ°ºÎÅÍ ¹®ÀÚ¿­À» str·Î ¹Ş¾Æ¿È
-			insert_vertex(str[i]); // °¢ Á¤Á¡ÀÇ µ¥ÀÌÅÍ¸¦ insert_vertex¸¦ ÅëÇØ »ğÀÔ
-			// str[i] ±¸Á¶Ã¼¸¦ insert_vertex ÇÔ¼ö¿¡ Àü´Ş
+			fscanf(fp, "%s", str[i].name); // ë‘ ë²ˆì§¸ë¶€í„° ë¬¸ìì—´ì„ strë¡œ ë°›ì•„ì˜´
+			insert_vertex(str[i]); // ê° ì •ì ì˜ ë°ì´í„°ë¥¼ insert_vertexë¥¼ í†µí•´ ì‚½ì…
+			// str[i] êµ¬ì¡°ì²´ë¥¼ insert_vertex í•¨ìˆ˜ì— ì „ë‹¬
 			for (j = 0; j < n; j++)
 			{
-				fscanf(fp, "%d", &val); // ¹®ÀÚ¿­ ´ÙÀ½¿¡ ÀÖ´Â ¼ıÀÚ¸¦ val¿¡ ´ãÀ½
-				if (i != j && val == 0) // val °ªÀÌ 0ÀÌ°í, i, j°¡ ¼­·Î ´Ù¸£´Ù¸é 
+				fscanf(fp, "%d", &val); // ë¬¸ìì—´ ë‹¤ìŒì— ìˆëŠ” ìˆ«ìë¥¼ valì— ë‹´ìŒ
+				if (i != j && val == 0) // val ê°’ì´ 0ì´ê³ , i, jê°€ ì„œë¡œ ë‹¤ë¥´ë‹¤ë©´ 
 				{
 					adj[i][j] = INF;
 				}
-				else // µÑ Áß ÇÏ³ª¶óµµ ¾Æ´Ï¶ó¸é
+				else // ë‘˜ ì¤‘ í•˜ë‚˜ë¼ë„ ì•„ë‹ˆë¼ë©´
 				{
-					adj[i][j] = val; // val °ªÀ» ³ÖÀ½
+					adj[i][j] = val; // val ê°’ì„ ë„£ìŒ
 				}
 			}
 		}
-		fclose(fp); // ÆÄÀÏ ´İÀ½
+		fclose(fp); // íŒŒì¼ ë‹«ìŒ
 	}
 }
 
-int path[MAX_VTXS]; // °æ·Î
-int dist[MAX_VTXS]; // °Å¸®
-int found[MAX_VTXS];
+int path[MAX_VTXS]; // ê²½ë¡œ
+int dist[MAX_VTXS]; // ê±°ë¦¬
+int found[MAX_VTXS];// ë°œê²¬ í™•ì¸ ì—¬ë¶€
 
-
-void print_step(int step)
-{
-	int i;
-	printf("\n");
-	printf(" Step%2d:", step);
-	for (i = 0; i < vsize; i++)
-	{
-		if (dist[i] == INF)
-		{
-			printf("  INF");
-		}
-		else
-		{
-			printf("%5d", dist[i]);
-		}
-	}
-	printf("\n");
-}
-
-int choose_vertex()
+int choose_vertex() // ìµœë‹¨ê±°ë¦¬ì˜ ìœ„ì¹˜ë¥¼ ì¶œë ¥í•´ì£¼ëŠ” í•¨ìˆ˜
 {
 	int i, min = INF, minpos = -1;
 
 	for (i = 0; i < vsize; i++)
 	{
-		if (dist[i] < min && !found[i]) // °Å¸®°¡ ÇöÀçÁ¤Á¡º¸´Ù ÃÖ´Ü°Å¸®°¡ ´õ ÀÛ°í ¼±ÅÃµÇÁö ¾ÊÀº °ªÀÌ¸é
+		if (dist[i] < min && !found[i]) // ê±°ë¦¬ê°€ í˜„ì¬ì •ì ë³´ë‹¤ ìµœë‹¨ê±°ë¦¬ê°€ ë” ì‘ê³  ì„ íƒë˜ì§€ ì•Šì€ ê°’ì´ë©´
 		{
-			min = dist[i]; // dist[i](ÃÖ´Ü°Å¸®)¸¦ min¿¡ ´ëÀÔ
+			min = dist[i]; // dist[i](ìµœë‹¨ê±°ë¦¬)ë¥¼ minì— ëŒ€ì…
 			//printf("%d ", dist[i]);
-			minpos = i; // ¸î ¹ø Â° Á¤Á¡ÀÎÁö minpos·Î ¹ŞÀ½
+			minpos = i; // ëª‡ ë²ˆ ì§¸ ì •ì ì¸ì§€ minposë¡œ ë°›ìŒ
 		}
 	}
-	return minpos; // minpos°ª ¹İÈ¯
+	return minpos; // minposê°’ ë°˜í™˜
 }
 
-void shortest_path_dijkstra(int start)
+void shortest_path_dijkstra(int start) // ë‹¤ìµìŠ¤íŠ¸ë¼ ì•Œê³ ë¦¬ì¦˜ í•¨ìˆ˜
 {
 	int i, u, w;
 	for (i = 0; i < vsize; i++)
 	{
-		path[i] = -1; // -1·Î ÃÊ±âÈ­ÇÏ¿© ¹Ì¹æ¹® »óÅÂ·Î Ç¥½Ã
+		path[i] = -1; // -1ë¡œ ì´ˆê¸°í™”í•˜ì—¬ ë¯¸ë°©ë¬¸ ìƒíƒœë¡œ í‘œì‹œ
 	}
 	
-	for (i = 0; i < vsize; i++) // ±×·¡ÇÁÀÇ °¹¼ö¸¸Å­
+	for (i = 0; i < vsize; i++) // ê·¸ë˜í”„ì˜ ê°¯ìˆ˜ë§Œí¼
 	{
-		dist[i] = adj[start][i]; // adj[0][i]¸¦ dist[i]¿¡ ´ëÀÔ
-		// ½ÃÀÛ Á¤Á¡À¸·ÎºÎÅÍÀÇ ÃÊ±â °Å¸®¸¦ ¼³Á¤ÇÏ´Â ´Ü°è
-		path[i] = start; // ÃÖ´Ü °æ·Î ÃßÀûÀ» À§ÇÑ ÃÊ±â ¼³Á¤
-		found[i] = 0; // ÇØ´ç Á¤Á¡Àº ¾ÆÁ÷ ¹æ¹®ÇÏÁö ¾Ê¾Ò´Ù´Â °ÍÀ» ³ªÅ¸³¿
+		dist[i] = adj[start][i]; // adj[0][i]ë¥¼ dist[i]ì— ëŒ€ì…
+		// ì‹œì‘ ì •ì ìœ¼ë¡œë¶€í„°ì˜ ì´ˆê¸° ê±°ë¦¬ë¥¼ ì„¤ì •í•˜ëŠ” ë‹¨ê³„
+		path[i] = start; // ìµœë‹¨ ê²½ë¡œ ì¶”ì ì„ ìœ„í•œ ì´ˆê¸° ì„¤ì •
+		found[i] = 0; // í•´ë‹¹ ì •ì ì€ ì•„ì§ ë°©ë¬¸í•˜ì§€ ì•Šì•˜ë‹¤ëŠ” ê²ƒì„ ë‚˜íƒ€ëƒ„
 	}
-	found[start] = 1; // ½ÃÀÛÁ¤Á¡Àº ÀÌ¹Ì ¹æ¹®ÇÑ °ÍÀÌ±â ¶§¹®¿¡ 1·Î Ã³¸®
-	dist[start] = 0; // ½ÃÀÛ Á¤Á¡ °Å¸®¸¦ 0À¸·Î ¼³Á¤ (D)
+	found[start] = 1; // ì‹œì‘ì •ì ì€ ì´ë¯¸ ë°©ë¬¸í•œ ê²ƒì´ê¸° ë•Œë¬¸ì— 1ë¡œ ì²˜ë¦¬
+	dist[start] = 0; // ì‹œì‘ ì •ì  ê±°ë¦¬ë¥¼ 0ìœ¼ë¡œ ì„¤ì • (D)
 
 	for (i = 0; i < vsize; i++)
 	{
-		//print_step(i + 1);
-		u = choose_vertex(); // ÃÖ´Ü°Å¸® ¼±Á¤ ÈÄ
-		found[u] = 1; // ±× À§Ä¡¸¦ Ã£¾Ò´Ù°í Ç¥½ÃÇØ³õÀ½
+		u = choose_vertex(); // ìµœë‹¨ê±°ë¦¬ ì„ ì • í›„
+		found[u] = 1; // ê·¸ ìœ„ì¹˜ë¥¼ ì°¾ì•˜ë‹¤ê³  í‘œì‹œí•´ë†“ìŒ
 		
 		for (w = 0; w < vsize; w++)
 		{
-			if (found[w] == 0) // ¾ÆÁ÷ ¹æ¹®ÇÏÁö ¾ÊÀº °÷ÀÌ ÀÖ´Ù¸é
+			if (found[w] == 0) // ì•„ì§ ë°©ë¬¸í•˜ì§€ ì•Šì€ ê³³ì´ ìˆë‹¤ë©´
 			{
 				if (dist[u] + adj[u][w] < dist[w]) 
-				// Áö±İ ±¸ÇÑ °Å¸®¿¡ adj(ÀÎÁ¢Çà·Ä)À» ´õÇÑ °ÍÀÌ 
-				//	ÇöÀç ÃÖ´Ü °Å¸®(dist[w])º¸´Ù ÀÛÀ¸¸é
+				// ì§€ê¸ˆ êµ¬í•œ ê±°ë¦¬ì— adj(ì¸ì ‘í–‰ë ¬)ì„ ë”í•œ ê²ƒì´ 
+				//	í˜„ì¬ ìµœë‹¨ ê±°ë¦¬(dist[w])ë³´ë‹¤ ì‘ìœ¼ë©´
 				{
-					dist[w] = dist[u] + adj[u][w]; // ÃÖ´Ü°Å¸®¸¦ °»½ÅÇÑ´Ù.
-					path[w] = u; // Á¤Á¡ wÀÇ ÀÌÀü Á¤Á¡À» u·Î ¼³Á¤ÇÔ
+					dist[w] = dist[u] + adj[u][w]; // ìµœë‹¨ê±°ë¦¬ë¥¼ ê°±ì‹ í•œë‹¤.
+					path[w] = u; // ì •ì  wì˜ ì´ì „ ì •ì ì„ uë¡œ ì„¤ì •í•¨
 				}
 			}
 		}
@@ -178,10 +159,11 @@ void shortest_path_dijkstra(int start)
 	}
 }
 
-int print_shortest_path(int start, int end) // ½ÃÀÛ, ³¡(vsize¸¸Å­)
+int print_shortest_path(int start, int end) // ë‹¤ìµìŠ¤íŠ¸ë¼ ê²°ê³¼ê°’ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜
+// ì‹œì‘, ë(vsizeë§Œí¼)
 {
 	shortest_path_dijkstra(start);
 
-	return dist[end];
+	return dist[end]; // ë„ì°©ì§€ ê±°ë¦¬ ì¶œë ¥
 	
 }
